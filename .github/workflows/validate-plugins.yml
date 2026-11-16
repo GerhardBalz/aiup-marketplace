@@ -52,7 +52,8 @@ jobs:
           git_ref=$(git rev-parse HEAD)
           registry_links=0
 
-          for plugin_path in aiup-*/; do
+          source scripts/catalog-plugin-directories.sh
+          for plugin_path in "${catalog_plugin_dirs[@]}"; do
             plugin=${plugin_path%/}
             cp -R "$plugin" "$tmp/$plugin"
             bash scripts/rewrite-plugin-readme-links.sh "$tmp/$plugin" "$repository_url" "$git_ref"

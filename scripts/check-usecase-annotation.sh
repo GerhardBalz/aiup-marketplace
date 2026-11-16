@@ -13,14 +13,16 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-python3 - <<'PY'
+source scripts/catalog-plugin-directories.sh
+
+python3 - "${catalog_plugin_dirs[@]}" <<'PY'
 import glob, os, re, sys
 
 # Every plugin directory except core and the combined stack plugins is a layer plugin, so a new layer plugin is
 # checked without an edit here.
 NOT_LAYER = {"aiup-core", "aiup-vaadin-jooq", "aiup-angular-jpa", "aiup-blazor-dotnet", "aiup-nestjs-nextjs"}
-LAYER_PLUGINS = sorted(os.path.dirname(p) for p in glob.glob("aiup-*/plugin.json")
-                       if os.path.dirname(p) not in NOT_LAYER)
+LAYER_PLUGINS = sorted(directory.rstrip("/") for directory in sys.argv[1:]
+                       if directory.rstrip("/") not in NOT_LAYER and os.path.isfile(f"{directory}plugin.json"))
 # A skill that annotates a test with @UseCase(...) must also carry the definition: it may be the first test skill to
 # run, and then it creates the file. The list is derived from the skills, like LAYER_PLUGINS, so a new Java test skill
 # is checked without an edit here.
