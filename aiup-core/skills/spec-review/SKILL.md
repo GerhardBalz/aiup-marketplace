@@ -71,6 +71,7 @@ location and nature, never by quoting the text itself.
 1. **Resolve the scope** from `$ARGUMENTS` (`report …` is not a review; go to [HTML Report](#html-report)): `UC-001`, `UC001`, or a path to a specification → `UC-001`; `TC-001`
    likewise; nothing → the whole project. If an id resolves to no file under `docs/use_cases/` (module folders included) or
    `docs/test_cases/`, list the near matches and ask. State the scope in one line (`Reviewing UC-004.`).
+   For a single use case, [begin a review handoff](#review-handoff) before running the lint.
 2. **Run the lint** (the script path is relative to this skill's directory; it finds `validate_use_case.py` and
    `bpmn_paths.py` in the sibling `use-case-spec` and `test-case` skill folders on its own):
 
@@ -91,7 +92,7 @@ location and nature, never by quoting the text itself.
    Skip a checklist item whose finding the lint already reported for the same element.
 4. **Write the report** in the format below. When this conversation already holds a spec review of the same scope,
    compare with it — see [Repeated Runs](#repeated-runs).
-5. **Hand off** — see [After the Report](#after-the-report). Then stop.
+5. **Hand off.** For a single use case, [record the delivered review](#review-handoff). Then follow [After the Report](#after-the-report).
 
 ## Report
 
@@ -136,9 +137,8 @@ moves to Approved?>
 
 When `$ARGUMENTS` contains `--output <file>` (the AI Unified Process Studio passes `--output .aiup-report/review.json`), write the
 report as usual and then the semantic part (Part B) and the verdict as JSON to that file. Strip `--output <file>` from
-the arguments before resolving the scope. The path must lie outside `docs/`; refuse any other. The skill writes two
-files and no others: `docs/spec-report.html`, on `/spec-review report`, and the JSON result at the path the caller
-names with `--output`. Lint findings do not go into it: the caller runs
+the arguments before resolving the scope. The path must lie outside `docs/`. The caller names the JSON result with
+`--output`. Lint findings do not go into it: the caller runs
 `spec_lint.py --format json` itself, so the lint stays deterministic.
 
 ```json
@@ -157,6 +157,13 @@ names with `--output`. Lint findings do not go into it: the caller runs
 - One verdict per use case in scope (the whole project: every use case with a specification), by the rule of
   **Ready for Approved** above.
 - With nothing found, write `"findings": []` and still one verdict per use case. Write valid JSON and nothing else.
+
+## Review Handoff
+
+For a single use case, locate the installed `next` skill and follow
+[Delivered specification reviews](../next/references/review-handoffs.md). The caller begins before linting and
+retains the delivered full report, structured result, and receipt after presenting the verdict. These local
+outputs are outside `docs/`. Specifications, statuses, questions, and the lint baseline stay read-only.
 
 ## After the Report
 
@@ -331,7 +338,7 @@ python3 scripts/spec_lint.py --docs docs --report --only UC-001 > docs/spec-repo
 
 Always write `docs/spec-report.html`, replacing the previous page: ids link to their files relative to the docs
 folder, so the links only work there. Use another file name only when the user names one, and keep it in `docs/`.
-Apart from the JSON result of [Machine-Readable Result](#machine-readable-result), this page is the only file the skill writes, and only on this command.
+This command writes the HTML report. The machine-readable result and the single-use-case handoff have their own output rules.
 
 The page is self-contained (no external assets) and holds summary counts, the Requirement Coverage table, the trace
 matrix with requirement titles and a filter box, test case → process → use cases, the open questions that are `Open` or

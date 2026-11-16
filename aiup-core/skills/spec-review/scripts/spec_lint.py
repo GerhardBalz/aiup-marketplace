@@ -2642,8 +2642,26 @@ def next_step(docs, validator, bpmn, anchors, plugin=None, baseline=None):
         add("Construction", owner, [x["id"] for x in answered],
             "blocking question " + q["id"] + " (" + element + ") is "
             "answered, but the answer is not in the specification yet")
+    drafts = [uid for status in ("Reviewed", "Draft")
+              for uid in by_status.get(status, []) if uid not in link_repairs]
+    root = os.path.dirname(os.path.abspath(docs))
+    reviewer = (load_sibling("*next/scripts/review_handoff.py", "review_handoff")
+                if drafts and os.path.basename(os.path.abspath(docs)) == "docs"
+                else None)
+    reviews = {uid: reviewer.inspect(root, uid) for uid in drafts} if reviewer else {}
+
+    # Keep lint totals, and use a current review's correction handoff
+    # for errors it already reported.
+    reported_errors = {
+        (os.path.normcase(os.path.abspath(os.path.join(root, f["file"]))),
+         f["line"], f["code"], f["element"], f["message"])
+        for review in reviews.values() if review["state"] == "rework"
+        for f in review["findings"] if f["kind"] == "lint"
+        and f["severity"] == "error" and f["disposition"] == "open"}
     errors = [f for f in findings if f.severity == ERROR
-              and f.code not in ("SPEC_MISSING", "OQ_BLOCKING")]
+              and f.code not in ("SPEC_MISSING", "OQ_BLOCKING")
+              and (os.path.normcase(os.path.abspath(f.path)), f.line,
+                   f.code, f.element, f.message) not in reported_errors]
     if errors:
         add("Construction", "/spec-review", [],
             "the spec lint reports %d error(s), first %s at %s:%d"
@@ -2708,10 +2726,23 @@ def next_step(docs, validator, bpmn, anchors, plugin=None, baseline=None):
     if approved and built:
         add("Construction", implement + " " + approved[0], approved,
             approved[0] + " is Approved")
-    drafts = eligible.get("Reviewed", []) + eligible.get("Draft", [])
-    if drafts:
-        uid = drafts[0]
-        add("Construction", "/spec-review " + uid, drafts, uid + " is "
+    unreviewed = []
+    for uid in drafts:
+        review = reviews.get(uid, {})
+        if review.get("state") == "ready":
+            add("Construction", "Approval decision for " + uid, [uid],
+                uid + " has a current review marked ready. The product owner "
+                "decides whether to approve it.")
+        elif review.get("state") == "rework":
+            for action in review["actions"]:
+                if not any(candidate["command"] == action for candidate in candidates):
+                    add("Construction", action, [uid],
+                        uid + " has a current review with open findings")
+        else:
+            unreviewed.append(uid)
+    if unreviewed:
+        uid = unreviewed[0]
+        add("Construction", "/spec-review " + uid, unreviewed, uid + " is "
             + statuses[uid] + "; once the review says it is ready, set it "
             "to Approved")
     missing = sorted({f.element for f in codes.get("SPEC_MISSING", [])})
@@ -4433,6 +4464,74 @@ def self_test():
     if anchors is None:
         failures.append("next: guide_anchor.py must be found in the "
                         "repository")
+    review = load_sibling("*next/scripts/review_handoff.py", "review_handoff")
+    if review is None:
+        failures.append("next: review_handoff.py must be found in the repository")
+    else:
+        with tempfile.TemporaryDirectory() as workspace:
+            from pathlib import Path
+            root = Path(workspace)
+            docs = root / "docs"
+            uid = "UC-001"
+            spec = "use_cases/UC-001-create-guest.md"
+            draft = CLEAN[spec].replace("**Status:** Approved", "**Status:** Draft")
+            write_fixture(str(docs), {**CLEAN, spec: draft,
+                                     "architecture/stack.md": NEXT_STACK})
+            evidence = ".local/spec-review/report.md"
+            outcome = ".local/spec-review/result.json"
+            report = "Full review delivered for the test.\n"
+
+            def steps():
+                return next_commands(str(docs), validator, bpmn, anchors)
+
+            def deliver(ready, findings):
+                review.write(root, uid, "begin")
+                write_fixture(workspace, {
+                    evidence: report,
+                    outcome: json.dumps({
+                        "lint_exit_code": 0, "ready_for_approval": ready,
+                        "findings": findings,
+                    }),
+                })
+                review.write(root, uid, "report", outcome, "Review delivered", [evidence])
+
+            if "/spec-review UC-001" not in steps():
+                failures.append("next: missing receipt must request review")
+            review.write(root, uid, "begin")
+            if "/spec-review UC-001" not in steps():
+                failures.append("next: in-progress review must request review")
+
+            deliver(True, [])
+            snapshot = next_step(str(docs), validator, bpmn, anchors)
+            completed = steps()
+            if ("Approval decision for UC-001" not in completed
+                    or "/spec-review UC-001" in completed):
+                failures.append("next: ready review must hand off to approval, got "
+                                + str(completed))
+            if (docs / spec).read_text(encoding="utf-8") != draft:
+                failures.append("next: approval handoff changed the specification")
+            write_fixture(str(docs), {spec: draft + "\nNew review input.\n"})
+            if "/spec-review UC-001" not in steps():
+                failures.append("next: changed reviewed content must request review")
+            write_fixture(str(docs), {spec: draft})
+            write_fixture(workspace, {evidence: "Different report.\n"})
+            if "/spec-review UC-001" not in steps():
+                failures.append("next: changed review evidence must request review")
+
+            deliver(False, [{
+                "kind": "semantic", "severity": "warning", "disposition": "open",
+                "file": "docs/" + spec, "line": 1, "element": uid,
+                "code": "Ambiguity", "message": "Clarify a business rule.",
+                "owner": "use-case-spec", "target": uid,
+            }])
+            corrected = next_step(str(docs), validator, bpmn, anchors)
+            pending = [item["command"] for item in corrected["pending"]]
+            if ("/use-case-spec UC-001" not in pending
+                    or "/spec-review UC-001" in pending
+                    or corrected["state"]["lint"] != snapshot["state"]["lint"]):
+                failures.append("next: review correction must preserve lint and "
+                                "replace review, got " + str(pending))
+
     with tempfile.TemporaryDirectory() as root:
         diagram = CLEAN["use_cases.puml"]
         declaration = '    usecase "UC-002\\nReserve Room" as UC002'
