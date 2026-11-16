@@ -5,6 +5,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+source scripts/catalog-plugin-directories.sh
 
 PLUGIN_SCHEMA="https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 MCP_SCHEMA="https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
@@ -19,7 +20,7 @@ publish_matrix=$(sed -n '/plugin: \[/,/\]/p' "$publish" | tr -d '[],' | tr -s ' 
 # The entries of on.push.paths, uncommented list items only: a commented-out "# - 'aiup-x/**'" publishes nothing.
 publish_paths=$(sed -n "/^ *paths:/,/^ *[a-z_-]*:[^']*\$/p" "$publish" | sed -n "s/^ *- *'\([^']*\)' *\(#.*\)\{0,1\}\$/\1/p")
 
-for dir in aiup-*/; do
+for dir in "${catalog_plugin_dirs[@]}"; do
   plugin="${dir%/}"
   root="$plugin/plugin.json"
   claude="$plugin/.claude-plugin/plugin.json"

@@ -13,6 +13,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+source scripts/catalog-plugin-directories.sh
 
 COPYRIGHT_LINE='Copyright 2025-2026 Simon Martinelli and the AI Unified Process contributors.'
 
@@ -52,11 +53,14 @@ docs/templates/vision.md
 # published documentation.
 targets() {
   {
-    find aiup-*/skills -type f -name '*.md'
-    find aiup-*/ -type f -name '*.md' -path '*/agents/*'
-    find aiup-*/ -maxdepth 2 -type f -name '*.md' -path '*/rules/*'
+    for dir in "${catalog_plugin_dirs[@]}"; do
+      find "${dir}skills" -type f -name '*.md'
+      find "$dir" -type f -name '*.md' -path '*/agents/*'
+      find "$dir" -maxdepth 2 -type f -name '*.md' -path '*/rules/*'
+      printf '%s\n' "${dir}README.md"
+    done
     find docs -type f -name '*.md'
-    printf '%s\n' aiup-*/README.md README.md
+    printf '%s\n' README.md
   } | grep -vxF "$(echo "$EXCLUDED" | sed '/^$/d')"
 }
 
@@ -64,7 +68,7 @@ missing=0
 added=0
 
 # A plugin without a README publishes a package page with nothing on it; a glob would skip it silently.
-for dir in aiup-*/; do
+for dir in "${catalog_plugin_dirs[@]}"; do
   if [ ! -f "${dir}README.md" ]; then
     echo "ERROR: ${dir}README.md is missing" >&2
     missing=$((missing + 1))
@@ -112,7 +116,7 @@ fi
 # `tessl plugin publish ./<plugin>` packages the plugin directory alone, so a
 # root-level LICENSE/NOTICE would never reach the published artifact. Each plugin
 # keeps its own byte-identical copy.
-for dir in aiup-*/; do
+for dir in "${catalog_plugin_dirs[@]}"; do
   for f in LICENSE NOTICE; do
     if [ "$fix" -eq 1 ]; then
       cp "$f" "$dir$f"

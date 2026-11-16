@@ -15,7 +15,9 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-python3 - <<'PY'
+source scripts/catalog-plugin-directories.sh
+
+python3 - "${catalog_plugin_dirs[@]}" <<'PY'
 import glob, os, re, sys
 
 WORKFLOW = ".github/workflows/aiup-generate.yml"
@@ -120,7 +122,9 @@ else:
         for skill in sorted((with_diff & NO_DIFF) | (with_status & NO_STATUS) | (with_status - with_diff)):
             error(f"{skill} is listed two ways: with and without the specification diff or the status advance")
 
-on_disk = {"/".join(p.split("/")[0:3:2]) for p in glob.glob("aiup-*/skills/*/SKILL.md")}
+plugin_dirs = sys.argv[1:]
+on_disk = {"/".join(path.split("/")[0:3:2])
+           for directory in plugin_dirs for path in glob.glob(f"{directory}skills/*/SKILL.md")}
 for entry in sorted(set(listed)):
     if entry not in on_disk:
         error(f"catalogue entry {entry} has no {entry.split('/')[0]}/skills/{entry.split('/')[1]}/SKILL.md")
@@ -139,7 +143,8 @@ else:
     text = "\n".join(block)
     mapping = re.search(r'layer_skills="(.*?)"', text, re.S)
     pairs = {tuple(p.split(":")) for p in mapping.group(1).split()} if mapping else set()
-    layer_plugins = {os.path.dirname(p) for p in glob.glob("aiup-*/plugin.json")} - NOT_LAYER
+    layer_plugins = {directory.rstrip("/") for directory in plugin_dirs
+                     if os.path.isfile(f"{directory}plugin.json")} - NOT_LAYER
     for plugin, skill in sorted(pairs):
         if plugin not in layer_plugins or not os.path.isfile(f"{plugin}/skills/{skill}/SKILL.md"):
             error(f"plugin selection: {plugin}:{skill} is not a skill of a layer plugin")

@@ -14,7 +14,7 @@ compatible coding agents.
 [Get started](docs/getting-started.md) · [Understand the workflow](docs/workflow.md) ·
 [Choose a plugin](#choose-your-plugins) · [Installation guides](#installation)
 
-On this fork, the [AIUP Issue Workflow prototype](prototypes/aiup-issue-workflow/README.md) provides
+On this fork, the [AIUP Issue Workflow prototype](aiup-issue-workflow/README.md) provides
 optional `/issue-capture` and `/issue-resolve` skills.
 
 ## Why AI Unified Process?

@@ -21,6 +21,12 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+source scripts/catalog-plugin-directories.sh
+
+skill_dirs=()
+for dir in "${catalog_plugin_dirs[@]}"; do
+  skill_dirs+=("${dir}skills")
+done
 
 fail=0
 error() {
@@ -41,8 +47,8 @@ aiup-core/skills/acceptance-protocol/references/protocol.md
 files=()
 while IFS= read -r f; do files+=("$f"); done < <(
   {
-    find aiup-*/skills -mindepth 2 -maxdepth 2 -name SKILL.md -print
-    find aiup-*/skills -path '*/references/*' -name '*.md' -print
+    find "${skill_dirs[@]}" -mindepth 2 -maxdepth 2 -name SKILL.md -print
+    find "${skill_dirs[@]}" -path '*/references/*' -name '*.md' -print
   } | sort | grep -vxF "$(echo "$PROJECT_TEMPLATES" | sed '/^$/d')"
 )
 skills=0
@@ -106,7 +112,7 @@ done
 
 while IFS= read -r f; do
   error "$f: Tessl does not publish this file type; wrap it in Markdown as $f.md with one fenced code block"
-done < <(find aiup-*/skills -type f ! -name '*.md' ! -name '*.py' ! -path '*/__pycache__/*' ! -name .DS_Store | sort)
+done < <(find "${skill_dirs[@]}" -type f ! -name '*.md' ! -name '*.py' ! -path '*/__pycache__/*' ! -name .DS_Store | sort)
 
 if [ "$fail" -ne 0 ]; then
   echo "$fail skill link problem(s) found." >&2

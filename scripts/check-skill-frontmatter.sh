@@ -10,7 +10,9 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-python3 - <<'EOF'
+source scripts/catalog-plugin-directories.sh
+
+python3 - "${catalog_plugin_dirs[@]}" <<'EOF'
 import glob, os, re, sys
 
 MAX_NAME, MAX_DESCRIPTION = 64, 1024
@@ -78,7 +80,7 @@ def field(front_matter, key):
         return fold([value] + [part.strip() for part in continuation])
     return None
 
-skills = sorted(glob.glob("aiup-*/skills/*/SKILL.md"))
+skills = sorted(path for directory in sys.argv[1:] for path in glob.glob(f"{directory}skills/*/SKILL.md"))
 for path in skills:
     text = open(path, encoding="utf-8").read()
     match = re.match(r"^---\n(.*?)\n---\n", text, re.S)

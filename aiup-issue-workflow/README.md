@@ -1,6 +1,7 @@
 # AIUP Issue Workflow
 
 An optional, stack-agnostic prototype for AIUP projects. It packages two skills in one install.
+The fork keeps it outside the Marketplace plugin catalog.
 
 - `issue-capture` gathers evidence, checks the owning tracker for duplicates, and drafts a report. Tracker writes require explicit authorization.
 - `issue-resolve` starts from an existing issue and works through the requested stage. It hands specification, implementation, and test work to the existing AIUP skills and uses `issue-capture` for new findings and authorized tracker updates.
@@ -12,7 +13,7 @@ Clone the fork and set `package` to the package directory.
 ```bash
 git clone --single-branch \
   https://github.com/GerhardBalz/aiup-marketplace.git aiup-marketplace-prototype
-package="$(cd aiup-marketplace-prototype/prototypes/aiup-issue-workflow && pwd)"
+package="$(cd aiup-marketplace-prototype/aiup-issue-workflow && pwd)"
 ```
 
 On Windows Git Bash, convert the path with `package="$(cygpath -am "$package")"`.

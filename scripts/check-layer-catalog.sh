@@ -14,15 +14,18 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-python3 - <<'PY'
+source scripts/catalog-plugin-directories.sh
+
+python3 - "${catalog_plugin_dirs[@]}" <<'PY'
 import collections, glob, os, re, sys
 
 CATALOG = "aiup-core/skills/stack/references/layer-catalog.md"
 # Every skill of a layer plugin builds or tests a layer and must appear in a layer.md row. The layer plugins are derived,
 # so a new plugin without a layer.md fails here instead of being skipped.
 NOT_LAYER = {"aiup-core", "aiup-vaadin-jooq", "aiup-angular-jpa", "aiup-blazor-dotnet", "aiup-nestjs-nextjs"}
-LAYER_PLUGINS = sorted(os.path.dirname(p) for p in glob.glob("aiup-*/plugin.json")
-                       if os.path.dirname(p) not in NOT_LAYER)
+plugin_dirs = sys.argv[1:]
+LAYER_PLUGINS = sorted(directory.rstrip("/") for directory in plugin_dirs
+                       if directory.rstrip("/") not in NOT_LAYER and os.path.isfile(f"{directory}plugin.json"))
 LAYERS = {"Migration", "Persistence", "Client", "Service", "API", "UI", "E2E"}
 TESTS_RUN = {"–", "in process, real database", "in process, external system stubbed", "backend mocked",
              "running application"}
@@ -54,7 +57,8 @@ def data_rows(text, header_start):
 
 described = set()
 tests_run = {}
-for path in sorted(glob.glob("aiup-*/skills/*/references/layer.md")):
+layer_rows = sorted(path for directory in plugin_dirs for path in glob.glob(f"{directory}skills/*/references/layer.md"))
+for path in layer_rows:
     plugin = path.split("/")[0]
     folder = path.split("/")[2]
     rows = data_rows(open(path, encoding="utf-8").read(), "Plugin")
