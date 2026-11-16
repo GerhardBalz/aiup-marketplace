@@ -1,0 +1,5 @@
+{
+  "name": "local/aiup-issue-workflow",
+  "version": "0.1.0",
+  "description": "Capture and resolve issues through the existing AIUP workflow."
+}
