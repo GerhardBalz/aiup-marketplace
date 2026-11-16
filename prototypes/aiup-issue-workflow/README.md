@@ -7,10 +7,10 @@ An optional, stack-agnostic prototype for AIUP projects. It packages two skills 
 
 ## Try the prototype
 
-Clone the prototype branch and set `package` to the package directory.
+Clone the fork and set `package` to the package directory.
 
 ```bash
-git clone --single-branch --branch codex/aiup-issue-workflow-prototype \
+git clone --single-branch \
   https://github.com/GerhardBalz/aiup-marketplace.git aiup-marketplace-prototype
 package="$(cd aiup-marketplace-prototype/prototypes/aiup-issue-workflow && pwd)"
 ```
