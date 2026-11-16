@@ -1,0 +1,56 @@
+{
+  "repository": "example/library-workflow",
+  "finding": {
+    "title": "Plugin manifest version is missing",
+    "type": "Repository tooling",
+    "observed_at": "2026-01-01, synthetic tracker fixture",
+    "evidence": [
+      "A synthetic fixture manifest contains a plugin name and omits the version field.",
+      "The fixture records this validation finding as open issue #3."
+    ],
+    "impact": "The fixture release cannot be identified from its manifest.",
+    "priority": "Medium",
+    "priority_rationale": "The release check is affected and the report has a concrete manifest observation.",
+    "completion_criteria": [
+      "Check that the fixture manifest contains the required version field."
+    ],
+    "links": [
+      "https://github.com/example/library-workflow/issues/3"
+    ],
+    "unconfirmed_causes": []
+  },
+  "duplicate_check": {
+    "repository": "example/library-workflow",
+    "source": "offline",
+    "checked_at": "2026-01-01",
+    "method": "Complete synthetic open and closed tracker snapshot for offline tests.",
+    "states": [
+      "open",
+      "closed"
+    ],
+    "complete": true,
+    "items": [
+      {
+        "number": 3,
+        "title": "Plugin manifest version is missing",
+        "state": "open",
+        "disposition": "duplicate",
+        "rationale": "Same missing manifest field and outcome."
+      },
+      {
+        "number": 4,
+        "title": "Release docs omit the package version",
+        "state": "open",
+        "disposition": "related",
+        "rationale": "Related release tooling with a separate documentation symptom."
+      },
+      {
+        "number": 5,
+        "title": "Catalog search misses an exact title match",
+        "state": "open",
+        "disposition": "distinct",
+        "rationale": "Separate catalog behavior."
+      }
+    ]
+  }
+}

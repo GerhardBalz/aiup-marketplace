@@ -1,0 +1,653 @@
+{
+  "schema_version": 1,
+  "context": "All repositories, issues, transcripts and tool results below are fictional offline fixtures. They are not live authority or live duplicate coverage. Apply each case separately using the candidate skill; no real issue writes, file edits, application runs or additional agents. Return the actual user-facing response and a trace of any simulated actions. A simulated result may be consumed only after selecting its corresponding operation.",
+  "owning_context": {
+    "repository": "example/library-workflow",
+    "git_origin": "git@github.com:example/library-workflow.git",
+    "installed_capture_skill": "issue-capture"
+  },
+  "cases": [
+    {
+      "case_id": "C1",
+      "user_request": "Assess whether #101 can be closed. Do not change the tracker.",
+      "parent": {
+        "number": 101,
+        "title": "Guard the selected workflow handoff",
+        "state": "open",
+        "criteria": [
+          "Preserve the selected handoff through its delivered result",
+          "Guard the reviewed-head merge write"
+        ],
+        "delivery": {
+          "merged_commit": "3333333333333333333333333333333333333333",
+          "original_checkout_activated": true,
+          "verification": "The retained criterion-level records and activation read-back below are the supplied evidence."
+        },
+        "criterion_evidence": [
+          {
+            "criterion": "Preserve the selected handoff through its delivered result",
+            "source": "Retained fictional regression transcript",
+            "command": "python -B -m unittest test_handoff_continuation",
+            "exit_code": 0,
+            "output": "Ran 1 test: recommendation -> delivered response -> repeated navigation; expected continuation observed. OK."
+          },
+          {
+            "criterion": "Guard the reviewed-head merge write",
+            "source": "Retained fictional request/response and canonical Git read-back",
+            "merge_request": {
+              "repository": "example/library-workflow",
+              "pull_request": 107,
+              "expected_head_sha": "1111111111111111111111111111111111111111",
+              "merge_method": "merge"
+            },
+            "merge_response": {
+              "merged": true,
+              "sha": "3333333333333333333333333333333333333333"
+            },
+            "canonical_readback": {
+              "sha": "3333333333333333333333333333333333333333",
+              "parents": [
+                "2222222222222222222222222222222222222222",
+                "1111111111111111111111111111111111111111"
+              ],
+              "tree": "4444444444444444444444444444444444444444",
+              "reviewed_head_tree": "4444444444444444444444444444444444444444"
+            }
+          }
+        ],
+        "activation_evidence": {
+          "current_branch": "codex/local-workflow",
+          "current_head": "3333333333333333333333333333333333333333",
+          "pending_contents_preserved": true,
+          "receipts_and_lifecycle_statuses_unchanged": true
+        }
+      },
+      "residual_items": [],
+      "tracker": {
+        "source": "offline",
+        "repository": "example/library-workflow",
+        "states": [
+          "open",
+          "closed"
+        ],
+        "complete": true,
+        "checked_at": "2026-10-01T10:10:00Z",
+        "method": "Complete fictional tracker snapshot for this isolated case; no live search.",
+        "issues": []
+      }
+    },
+    {
+      "case_id": "C2",
+      "user_request": "Prepare the closure evidence for #101, accounting for the retained diagnostic finding. Leave all issues unchanged.",
+      "parent": {
+        "number": 101,
+        "title": "Guard the selected workflow handoff",
+        "state": "open",
+        "criteria": [
+          "Preserve the selected handoff through its delivered result",
+          "Guard the reviewed-head merge write"
+        ],
+        "delivery": {
+          "merged_commit": "3333333333333333333333333333333333333333",
+          "original_checkout_activated": true,
+          "verification": "The retained criterion-level records and activation read-back below are the supplied evidence."
+        },
+        "criterion_evidence": [
+          {
+            "criterion": "Preserve the selected handoff through its delivered result",
+            "source": "Retained fictional regression transcript",
+            "command": "python -B -m unittest test_handoff_continuation",
+            "exit_code": 0,
+            "output": "Ran 1 test: recommendation -> delivered response -> repeated navigation; expected continuation observed. OK."
+          },
+          {
+            "criterion": "Guard the reviewed-head merge write",
+            "source": "Retained fictional request/response and canonical Git read-back",
+            "merge_request": {
+              "repository": "example/library-workflow",
+              "pull_request": 107,
+              "expected_head_sha": "1111111111111111111111111111111111111111",
+              "merge_method": "merge"
+            },
+            "merge_response": {
+              "merged": true,
+              "sha": "3333333333333333333333333333333333333333"
+            },
+            "canonical_readback": {
+              "sha": "3333333333333333333333333333333333333333",
+              "parents": [
+                "2222222222222222222222222222222222222222",
+                "1111111111111111111111111111111111111111"
+              ],
+              "tree": "4444444444444444444444444444444444444444",
+              "reviewed_head_tree": "4444444444444444444444444444444444444444"
+            }
+          }
+        ],
+        "activation_evidence": {
+          "current_branch": "codex/local-workflow",
+          "current_head": "3333333333333333333333333333333333333333",
+          "pending_contents_preserved": true,
+          "receipts_and_lifecycle_statuses_unchanged": true
+        }
+      },
+      "residual_items": [
+        {
+          "finding": {
+            "title": "Optional diagnostic omits the observation timestamp",
+            "type": "Developer tooling",
+            "observed_at": "2026-10-01T10:00:00Z",
+            "evidence": [
+              "Retained offline diagnostic transcript line 12 contains a warning without its observation time."
+            ],
+            "impact": "The selected handoff works; correlating optional diagnostic output is harder.",
+            "priority": "Low",
+            "priority_rationale": "Optional diagnostic usability; no selected-scope failure observed.",
+            "completion_criteria": [
+              "A separately authorized diagnostic change includes the observation timestamp."
+            ],
+            "links": [
+              "https://github.com/example/library-workflow/issues/101"
+            ],
+            "unconfirmed_causes": []
+          },
+          "selected_scope": false
+        }
+      ],
+      "tracker": {
+        "source": "offline",
+        "repository": "example/library-workflow",
+        "states": [
+          "open",
+          "closed"
+        ],
+        "complete": true,
+        "checked_at": "2026-10-01T10:10:00Z",
+        "method": "Complete fictional tracker snapshot for this isolated case; no live search.",
+        "issues": [
+          {
+            "number": 207,
+            "title": "Add timestamps to optional diagnostic warnings",
+            "state": "closed",
+            "body": "The same diagnostic transcript omitted the observation timestamp. This issue records that exact symptom and a completed correction.",
+            "url": "https://github.com/example/library-workflow/issues/207"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "C3",
+      "user_request": "Prepare an unpublished follow-up draft for the retained diagnostic observation and assess #101 for closure. Do not publish or close anything.",
+      "parent": {
+        "number": 101,
+        "title": "Guard the selected workflow handoff",
+        "state": "open",
+        "criteria": [
+          "Preserve the selected handoff through its delivered result",
+          "Guard the reviewed-head merge write"
+        ],
+        "delivery": {
+          "merged_commit": "3333333333333333333333333333333333333333",
+          "original_checkout_activated": true,
+          "verification": "The retained criterion-level records and activation read-back below are the supplied evidence."
+        },
+        "criterion_evidence": [
+          {
+            "criterion": "Preserve the selected handoff through its delivered result",
+            "source": "Retained fictional regression transcript",
+            "command": "python -B -m unittest test_handoff_continuation",
+            "exit_code": 0,
+            "output": "Ran 1 test: recommendation -> delivered response -> repeated navigation; expected continuation observed. OK."
+          },
+          {
+            "criterion": "Guard the reviewed-head merge write",
+            "source": "Retained fictional request/response and canonical Git read-back",
+            "merge_request": {
+              "repository": "example/library-workflow",
+              "pull_request": 107,
+              "expected_head_sha": "1111111111111111111111111111111111111111",
+              "merge_method": "merge"
+            },
+            "merge_response": {
+              "merged": true,
+              "sha": "3333333333333333333333333333333333333333"
+            },
+            "canonical_readback": {
+              "sha": "3333333333333333333333333333333333333333",
+              "parents": [
+                "2222222222222222222222222222222222222222",
+                "1111111111111111111111111111111111111111"
+              ],
+              "tree": "4444444444444444444444444444444444444444",
+              "reviewed_head_tree": "4444444444444444444444444444444444444444"
+            }
+          }
+        ],
+        "activation_evidence": {
+          "current_branch": "codex/local-workflow",
+          "current_head": "3333333333333333333333333333333333333333",
+          "pending_contents_preserved": true,
+          "receipts_and_lifecycle_statuses_unchanged": true
+        }
+      },
+      "residual_items": [
+        {
+          "finding": {
+            "title": "Optional diagnostic omits the observation timestamp",
+            "type": "Developer tooling",
+            "observed_at": "2026-10-01T10:00:00Z",
+            "evidence": [
+              "Retained offline diagnostic transcript line 12 contains a warning without its observation time."
+            ],
+            "impact": "The selected handoff works; correlating optional diagnostic output is harder.",
+            "priority": "Low",
+            "priority_rationale": "Optional diagnostic usability; no selected-scope failure observed.",
+            "completion_criteria": [
+              "A separately authorized diagnostic change includes the observation timestamp."
+            ],
+            "links": [
+              "https://github.com/example/library-workflow/issues/101"
+            ],
+            "unconfirmed_causes": []
+          },
+          "selected_scope": false
+        }
+      ],
+      "tracker": {
+        "source": "offline",
+        "repository": "example/library-workflow",
+        "states": [
+          "open",
+          "closed"
+        ],
+        "complete": true,
+        "checked_at": "2026-10-01T10:10:00Z",
+        "method": "Complete fictional tracker snapshot for this isolated case; no live search.",
+        "issues": [
+          {
+            "number": 205,
+            "title": "Explain request identifiers in diagnostic messages",
+            "state": "open",
+            "body": "Diagnostic messages have request identifiers but need an operator explanation. This record does not concern observation timestamps.",
+            "url": "https://github.com/example/library-workflow/issues/205"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "C4",
+      "user_request": "In this fake tracker, publish the already reviewed follow-up payload for the retained timestamp observation and then close #101 as completed if its criteria are satisfied. These two writes are explicitly authorized. Do not seek another stage confirmation. Keep lifecycle receipts unchanged.",
+      "parent": {
+        "number": 101,
+        "title": "Guard the selected workflow handoff",
+        "state": "open",
+        "criteria": [
+          "Preserve the selected handoff through its delivered result",
+          "Guard the reviewed-head merge write"
+        ],
+        "delivery": {
+          "merged_commit": "3333333333333333333333333333333333333333",
+          "original_checkout_activated": true,
+          "verification": "The retained criterion-level records and activation read-back below are the supplied evidence."
+        },
+        "criterion_evidence": [
+          {
+            "criterion": "Preserve the selected handoff through its delivered result",
+            "source": "Retained fictional regression transcript",
+            "command": "python -B -m unittest test_handoff_continuation",
+            "exit_code": 0,
+            "output": "Ran 1 test: recommendation -> delivered response -> repeated navigation; expected continuation observed. OK."
+          },
+          {
+            "criterion": "Guard the reviewed-head merge write",
+            "source": "Retained fictional request/response and canonical Git read-back",
+            "merge_request": {
+              "repository": "example/library-workflow",
+              "pull_request": 107,
+              "expected_head_sha": "1111111111111111111111111111111111111111",
+              "merge_method": "merge"
+            },
+            "merge_response": {
+              "merged": true,
+              "sha": "3333333333333333333333333333333333333333"
+            },
+            "canonical_readback": {
+              "sha": "3333333333333333333333333333333333333333",
+              "parents": [
+                "2222222222222222222222222222222222222222",
+                "1111111111111111111111111111111111111111"
+              ],
+              "tree": "4444444444444444444444444444444444444444",
+              "reviewed_head_tree": "4444444444444444444444444444444444444444"
+            }
+          }
+        ],
+        "activation_evidence": {
+          "current_branch": "codex/local-workflow",
+          "current_head": "3333333333333333333333333333333333333333",
+          "pending_contents_preserved": true,
+          "receipts_and_lifecycle_statuses_unchanged": true
+        }
+      },
+      "residual_items": [
+        {
+          "finding": {
+            "title": "Optional diagnostic omits the observation timestamp",
+            "type": "Developer tooling",
+            "observed_at": "2026-10-01T10:00:00Z",
+            "evidence": [
+              "Retained offline diagnostic transcript line 12 contains a warning without its observation time."
+            ],
+            "impact": "The selected handoff works; correlating optional diagnostic output is harder.",
+            "priority": "Low",
+            "priority_rationale": "Optional diagnostic usability; no selected-scope failure observed.",
+            "completion_criteria": [
+              "A separately authorized diagnostic change includes the observation timestamp."
+            ],
+            "links": [
+              "https://github.com/example/library-workflow/issues/101"
+            ],
+            "unconfirmed_causes": []
+          },
+          "selected_scope": false
+        }
+      ],
+      "tracker": {
+        "source": "offline",
+        "repository": "example/library-workflow",
+        "states": [
+          "open",
+          "closed"
+        ],
+        "complete": true,
+        "checked_at": "2026-10-01T10:10:00Z",
+        "method": "Complete fictional tracker snapshot for this isolated case; no live search.",
+        "issues": []
+      },
+      "reviewed_followup_payload": {
+        "title": "Optional diagnostic omits the observation timestamp",
+        "body": "Type: developer tooling. Observed 2026-10-01T10:00:00Z in the retained offline diagnostic transcript line 12. The warning lacks an observation time; selected handoff behavior succeeds. Low provisional priority because only optional diagnostic correlation is affected. Cause unconfirmed. Completion: include observation timestamps in this optional diagnostic, once its own implementation is authorized. Related to #101. Complete offline open/closed snapshot contains no other issue."
+      },
+      "mock_tool_results": {
+        "create_issue": {
+          "number": 208,
+          "state": "open",
+          "url": "https://github.com/example/library-workflow/issues/208"
+        },
+        "update_parent_closed": {
+          "number": 101,
+          "state": "closed",
+          "state_reason": "completed"
+        },
+        "read_created_issue": {
+          "number": 208,
+          "title": "Optional diagnostic omits the observation timestamp",
+          "body": "Type: developer tooling. Observed 2026-10-01T10:00:00Z in the retained offline diagnostic transcript line 12. The warning lacks an observation time; selected handoff behavior succeeds. Low provisional priority because only optional diagnostic correlation is affected. Cause unconfirmed. Completion: include observation timestamps in this optional diagnostic, once its own implementation is authorized. Related to #101. Complete offline open/closed snapshot contains no other issue.",
+          "state": "open",
+          "url": "https://github.com/example/library-workflow/issues/208"
+        },
+        "read_parent_issue": {
+          "number": 101,
+          "state": "closed",
+          "state_reason": "completed",
+          "completion_links": [
+            "https://github.com/example/library-workflow/issues/208"
+          ],
+          "url": "https://github.com/example/library-workflow/issues/101"
+        }
+      }
+    },
+    {
+      "case_id": "C5",
+      "user_request": "Assess #101 for closure. The maintainer explicitly deferred the optional comparison pilot in #36. Do not run that pilot or change any issue.",
+      "parent": {
+        "number": 101,
+        "title": "Guard the selected workflow handoff",
+        "state": "open",
+        "criteria": [
+          "Preserve the selected handoff through its delivered result",
+          "Guard the reviewed-head merge write"
+        ],
+        "delivery": {
+          "merged_commit": "3333333333333333333333333333333333333333",
+          "original_checkout_activated": true,
+          "verification": "The retained criterion-level records and activation read-back below are the supplied evidence."
+        },
+        "criterion_evidence": [
+          {
+            "criterion": "Preserve the selected handoff through its delivered result",
+            "source": "Retained fictional regression transcript",
+            "command": "python -B -m unittest test_handoff_continuation",
+            "exit_code": 0,
+            "output": "Ran 1 test: recommendation -> delivered response -> repeated navigation; expected continuation observed. OK."
+          },
+          {
+            "criterion": "Guard the reviewed-head merge write",
+            "source": "Retained fictional request/response and canonical Git read-back",
+            "merge_request": {
+              "repository": "example/library-workflow",
+              "pull_request": 107,
+              "expected_head_sha": "1111111111111111111111111111111111111111",
+              "merge_method": "merge"
+            },
+            "merge_response": {
+              "merged": true,
+              "sha": "3333333333333333333333333333333333333333"
+            },
+            "canonical_readback": {
+              "sha": "3333333333333333333333333333333333333333",
+              "parents": [
+                "2222222222222222222222222222222222222222",
+                "1111111111111111111111111111111111111111"
+              ],
+              "tree": "4444444444444444444444444444444444444444",
+              "reviewed_head_tree": "4444444444444444444444444444444444444444"
+            }
+          }
+        ],
+        "activation_evidence": {
+          "current_branch": "codex/local-workflow",
+          "current_head": "3333333333333333333333333333333333333333",
+          "pending_contents_preserved": true,
+          "receipts_and_lifecycle_statuses_unchanged": true
+        }
+      },
+      "residual_items": [
+        {
+          "description": "Measure whether the optional workflow comparison saves time or model usage.",
+          "selected_scope": false,
+          "owner_decision": "Maintainer explicitly deferred this pilot; no benefit measurement is claimed.",
+          "canonical_issue": 36
+        }
+      ],
+      "tracker": {
+        "source": "offline",
+        "repository": "example/library-workflow",
+        "states": [
+          "open",
+          "closed"
+        ],
+        "complete": true,
+        "checked_at": "2026-10-01T10:10:00Z",
+        "method": "Complete fictional tracker snapshot for this isolated case; no live search.",
+        "issues": [
+          {
+            "number": 36,
+            "title": "Evaluate a later workflow comparison",
+            "state": "open",
+            "body": "Optional pilot remains deferred until separately requested.",
+            "url": "https://github.com/example/library-workflow/issues/36"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "C6",
+      "user_request": "Close #101 as completed.",
+      "parent": {
+        "number": 101,
+        "title": "Guard the selected workflow handoff",
+        "state": "open",
+        "criteria": [
+          "Preserve the selected handoff through its delivered result",
+          "Guard the reviewed-head merge write"
+        ],
+        "delivery": {
+          "merged_commit": "3333333333333333333333333333333333333333",
+          "original_checkout_activated": true,
+          "verification": "The handoff continuation check passed, but the merge request still omits the expected reviewed-head SHA."
+        },
+        "criterion_evidence": [
+          {
+            "criterion": "Preserve the selected handoff through its delivered result",
+            "source": "Retained fictional regression transcript",
+            "command": "python -B -m unittest test_handoff_continuation",
+            "exit_code": 0,
+            "output": "Ran 1 test: recommendation -> delivered response -> repeated navigation; expected continuation observed. OK."
+          },
+          {
+            "criterion": "Guard the reviewed-head merge write",
+            "source": "Retained fictional request/response and canonical Git read-back",
+            "merge_request": {
+              "repository": "example/library-workflow",
+              "pull_request": 107,
+              "merge_method": "merge"
+            },
+            "merge_response": {
+              "merged": true,
+              "sha": "3333333333333333333333333333333333333333"
+            },
+            "canonical_readback": {
+              "sha": "3333333333333333333333333333333333333333",
+              "parents": [
+                "2222222222222222222222222222222222222222",
+                "1111111111111111111111111111111111111111"
+              ],
+              "tree": "4444444444444444444444444444444444444444",
+              "reviewed_head_tree": "4444444444444444444444444444444444444444"
+            },
+            "verification_result": "FAILED: captured merge request lacks expected_head_sha; selected criterion remains unresolved."
+          }
+        ],
+        "activation_evidence": {
+          "current_branch": "codex/local-workflow",
+          "current_head": "3333333333333333333333333333333333333333",
+          "pending_contents_preserved": true,
+          "receipts_and_lifecycle_statuses_unchanged": true
+        }
+      },
+      "residual_items": [
+        {
+          "description": "The required reviewed-head write guard is absent.",
+          "selected_scope": true,
+          "criterion": "Guard the reviewed-head merge write",
+          "review_result": "Unresolved blocker; no owner waiver or superseding scope decision."
+        }
+      ],
+      "tracker": {
+        "source": "offline",
+        "repository": "example/library-workflow",
+        "states": [
+          "open",
+          "closed"
+        ],
+        "complete": true,
+        "checked_at": "2026-10-01T10:10:00Z",
+        "method": "Complete fictional tracker snapshot for this isolated case; no live search.",
+        "issues": []
+      }
+    },
+    {
+      "case_id": "C7",
+      "user_request": "Before closing #101, use issue-capture to prepare an unpublished draft for the timestamp finding and present it for my review. Leave #101 open until I have reviewed that draft. Do not publish a follow-up.",
+      "parent": {
+        "number": 101,
+        "title": "Guard the selected workflow handoff",
+        "state": "open",
+        "criteria": [
+          "Preserve the selected handoff through its delivered result",
+          "Guard the reviewed-head merge write"
+        ],
+        "delivery": {
+          "merged_commit": "3333333333333333333333333333333333333333",
+          "original_checkout_activated": true,
+          "verification": "The retained criterion-level records and activation read-back below are the supplied evidence."
+        },
+        "criterion_evidence": [
+          {
+            "criterion": "Preserve the selected handoff through its delivered result",
+            "source": "Retained fictional regression transcript",
+            "command": "python -B -m unittest test_handoff_continuation",
+            "exit_code": 0,
+            "output": "Ran 1 test: recommendation -> delivered response -> repeated navigation; expected continuation observed. OK."
+          },
+          {
+            "criterion": "Guard the reviewed-head merge write",
+            "source": "Retained fictional request/response and canonical Git read-back",
+            "merge_request": {
+              "repository": "example/library-workflow",
+              "pull_request": 107,
+              "expected_head_sha": "1111111111111111111111111111111111111111",
+              "merge_method": "merge"
+            },
+            "merge_response": {
+              "merged": true,
+              "sha": "3333333333333333333333333333333333333333"
+            },
+            "canonical_readback": {
+              "sha": "3333333333333333333333333333333333333333",
+              "parents": [
+                "2222222222222222222222222222222222222222",
+                "1111111111111111111111111111111111111111"
+              ],
+              "tree": "4444444444444444444444444444444444444444",
+              "reviewed_head_tree": "4444444444444444444444444444444444444444"
+            }
+          }
+        ],
+        "activation_evidence": {
+          "current_branch": "codex/local-workflow",
+          "current_head": "3333333333333333333333333333333333333333",
+          "pending_contents_preserved": true,
+          "receipts_and_lifecycle_statuses_unchanged": true
+        }
+      },
+      "residual_items": [
+        {
+          "finding": {
+            "title": "Optional diagnostic omits the observation timestamp",
+            "type": "Developer tooling",
+            "observed_at": "2026-10-01T10:00:00Z",
+            "evidence": [
+              "Retained offline diagnostic transcript line 12 contains a warning without its observation time."
+            ],
+            "impact": "The selected handoff works; correlating optional diagnostic output is harder.",
+            "priority": "Low",
+            "priority_rationale": "Optional diagnostic usability; no selected-scope failure observed.",
+            "completion_criteria": [
+              "A separately authorized diagnostic change includes the observation timestamp."
+            ],
+            "links": [
+              "https://github.com/example/library-workflow/issues/101"
+            ],
+            "unconfirmed_causes": []
+          },
+          "selected_scope": false
+        }
+      ],
+      "tracker": {
+        "source": "offline",
+        "repository": "example/library-workflow",
+        "states": [
+          "open",
+          "closed"
+        ],
+        "complete": true,
+        "checked_at": "2026-10-01T10:10:00Z",
+        "method": "Complete fictional tracker snapshot for this isolated case; no live search.",
+        "issues": []
+      },
+      "review_status": "The required draft has not yet been prepared or reviewed."
+    }
+  ]
+}
